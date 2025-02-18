@@ -2,11 +2,11 @@ import React from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 import './CartWidget.css';
 
-const CartWidget = () => {
+const CartWidget = ({ count }) => {
   return (
     <div className="cart-widget">
       <FaShoppingCart />
-      <span className="cart-count">3</span>
+      {count > 0 && <span className="cart-count">{count}</span>}
     </div>
   );
 };

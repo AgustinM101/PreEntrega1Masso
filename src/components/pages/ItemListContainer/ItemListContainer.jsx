@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ItemListContainer.css';
-import ProductCard from './ProductCard';
+import ProductCard from '../../common/productCard/ProductCard';
 
 const products = [
   {
@@ -8,21 +8,21 @@ const products = [
     name: 'Simulador de Vuelo',
     description: 'Un simulador de vuelo realista para pilotos en entrenamiento.',
     price: 299.99,
-    image: 'https://res.cloudinary.com/tu-cuenta/image/upload/v1234567890/simulador-vuelo.jpg'
+    image: 'https://res.cloudinary.com/dkv58dvqy/image/upload/v1738619823/simuVuelo_jpuypw.jpg'
   },
   {
     id: 'carreras',
     name: 'Simulador de Carreras',
     description: 'Experimenta la emoción de las carreras con este simulador.',
     price: 199.99,
-    image: 'https://res.cloudinary.com/tu-cuenta/image/upload/v1234567890/simulador-carreras.jpg'
+    image: 'https://res.cloudinary.com/dkv58dvqy/image/upload/v1738619814/simuCarreras_tceqig.jpg'
   },
   {
     id: 'espacio',
     name: 'Simulador de Espacio',
     description: 'Explora el espacio y más allá con este simulador.',
     price: 399.99,
-    image: 'https://res.cloudinary.com/tu-cuenta/image/upload/v1234567890/simulador-espacio.jpg'
+    image: 'https://res.cloudinary.com/dkv58dvqy/image/upload/v1738619799/simuEspacio_lnaajp.avif'
   }
 ];
 
