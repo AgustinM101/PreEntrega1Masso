@@ -1,0 +1,19 @@
+.cart-container {
+  padding: 20px;
+  color: #212529;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cart-item img {
+  max-width: 100px;
+  margin-right: 20px;
+}
+
+.cart-total {
+  margin-top: 20px;
+}

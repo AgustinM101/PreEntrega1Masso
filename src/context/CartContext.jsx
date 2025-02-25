@@ -3,14 +3,28 @@ import { createContext, useState } from "react";
 export const CartContext = createContext();
 
 const CartContextProvider = ({ children }) => {
-  const [cart, setCart] = useState([]); // [{} {} {}]
+  const [cart, setCart] = useState([]); // [{2}{3}{5}]
 
   const addToCart = (product) => {
-    // setCart( product ) //  {}
-    // setCart( [ product ] ) // [ {puma}  ] - [ {nike} ]
-    // VERIFICAR SI YA EXISTE O NO EN EL CART
-    setCart([...cart, product]);
+    let existe = cart.some((elemento) => elemento.id === product.id);
+    if (existe) {
+      const nuevoArray = cart.map((elemento) => {
+        // [{2}{3}{8}]
+        if (product.id === elemento.id) {
+          return {
+            ...elemento,
+            quantity: elemento.quantity + product.quantity,
+          };
+        } else {
+          return elemento;
+        }
+      });
+      setCart(nuevoArray);
+    } else {
+      setCart([...cart, product]);
+    }
   };
+
   const resetCart = () => {
     setCart([]);
   };
@@ -22,11 +36,13 @@ const CartContextProvider = ({ children }) => {
   };
 
   const getTotalAmount = () => {
+    // reduce ---> reducir un array a una minima expresion
     let total = cart.reduce((acc, elemento) => {
       return acc + elemento.quantity * elemento.price;
     }, 0);
     return total;
   };
+
   const getTotalQuantity = () => {
     let total = cart.reduce((acc, elemento) => {
       return acc + elemento.quantity;
