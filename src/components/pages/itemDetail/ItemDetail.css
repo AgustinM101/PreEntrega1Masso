@@ -7,8 +7,8 @@
 }
 
 .item-detail-image {
-  max-width: 100%;
-  height: auto;
+  width: 600px; /* Ancho fijo para las img */
+  height: auto; /* Mantener la proporcion de la img */
   margin-bottom: 20px;
 }
 
