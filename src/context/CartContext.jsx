@@ -31,6 +31,8 @@ const CartContextProvider = ({ children }) => {
 
   const removeById = (id) => {
     console.log(id);
+    // nuevo array ---> que tenga todos los elementos excepto el de este id
+    // el filter siempre siempre siempre devuelve un array
     const newArray = cart.filter((elemento) => elemento.id !== id);
     setCart(newArray);
   };
