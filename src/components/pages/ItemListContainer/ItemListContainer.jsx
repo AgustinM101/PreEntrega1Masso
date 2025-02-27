@@ -3,10 +3,13 @@ import "./ItemListContainer.css";
 import ProductCard from "../../common/productCard/ProductCard";
 import { products } from "../../../products";
 import { useParams } from "react-router-dom";
+import ProductSkeleton from "../../common/ProductSkeleton/ProductSkeleton";
+import Box from "@mui/material/Box";
 
 const ItemListContainer = ({ greeting }) => {
   const { name } = useParams();
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let arrayFiltrado = products.filter(
@@ -28,6 +31,9 @@ const ItemListContainer = ({ greeting }) => {
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [name]);
 
@@ -74,11 +80,19 @@ const ItemListContainer = ({ greeting }) => {
           Simuladores de Shooters
         </button>
       </div>
-      <div className="item-list">
-        {items.map((item) => (
-          <ProductCard key={item.id} product={item} />
-        ))}
-      </div>
+      {loading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", gap: "20px" }}>
+          <ProductSkeleton />
+          <ProductSkeleton />
+          <ProductSkeleton />
+        </Box>
+      ) : (
+        <div className="item-list">
+          {items.map((item) => (
+            <ProductCard key={item.id} product={item} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
