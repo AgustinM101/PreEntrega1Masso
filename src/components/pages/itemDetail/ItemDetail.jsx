@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { products } from "../../../products";
 import { CartContext } from "../../../context/CartContext";
 import "./ItemDetail.css";
-import ProductSkeleton from "../../common/productSkeleton/ProductSkeleton";
+import ProductSkeleton from "../../common/ProductSkeleton/ProductSkeleton";
 
 const ItemDetail = () => {
   const { id } = useParams();
@@ -16,7 +16,7 @@ const ItemDetail = () => {
   }, [id]);
 
   if (!product) {
-    return <div>Loading...</div>;
+    return <ProductSkeleton />;
   }
 
   const handleAddToCart = () => {
