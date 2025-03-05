@@ -1,43 +1,72 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { products } from "../../../products";
 import { CartContext } from "../../../context/CartContext";
 import "./ItemDetail.css";
-import ProductSkeleton from "../../common/ProductSkeleton/ProductSkeleton";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import { db } from "../../../firebaseConfig";
+import { collection, doc, getDoc } from "firebase/firestore";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const ItemDetail = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
+  const [item, setItem] = useState({});
   const { addToCart } = useContext(CartContext);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const foundProduct = products.find((item) => item.id === id);
-    setProduct(foundProduct);
+    let productCollection = collection(db, "products");
+    let refDoc = doc(productCollection, id);
+    const getProduct = getDoc(refDoc);
+    getProduct.then((res) => {
+      setItem({ id: res.id, ...res.data() });
+    });
   }, [id]);
 
-  if (!product) {
-    return <ProductSkeleton />;
-  }
-
   const handleAddToCart = () => {
-    addToCart({ ...product, quantity: 1 });
+    setLoading(true);
+    setTimeout(() => {
+      addToCart({ ...item, quantity: 1 });
+      setLoading(false);
+      setOpen(true);
+    }, 1000); // Simula un delay de 1 segundo
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
   };
 
   return (
     <div className="item-detail">
-      <img
-        src={product.image}
-        alt={product.name}
-        className="item-detail-image"
-      />
+      <img src={item.imageUrl} alt={item.title} className="item-detail-image" />
       <div className="item-detail-text">
-        <h3>{product.name}</h3>
-        <p>{product.description}</p>
-        <p className="price">${product.price}</p>
-        <button className="btn btn-primary" onClick={handleAddToCart}>
-          Agregar al Carrito
-        </button>
+        <h3>{item.title}</h3>
+        <p>{item.description}</p>
+        <p className="price">${item.price}</p>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleAddToCart}
+          disabled={loading}
+          startIcon={loading && <CircularProgress size={20} />}
+        >
+          {loading ? "Cargando..." : "Agregar al Carrito"}
+        </Button>
       </div>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Producto agregado al carrito exitosamente!
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
