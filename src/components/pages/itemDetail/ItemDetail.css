@@ -2,13 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: white; /* Texto blanco */
+  color: white;
   padding: 20px;
 }
 
 .item-detail-image {
   width: 600px; /* Ancho fijo para las img */
-  height: auto; /* Mantener la proporcion de la img */
+  height: auto; /* Mantener la proporción de la img */
   margin-bottom: 20px;
 }
 

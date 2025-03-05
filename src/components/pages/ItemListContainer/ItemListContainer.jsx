@@ -1,81 +1,115 @@
 import React, { useState, useEffect } from "react";
-import "./ItemListContainer.css";
 import ProductCard from "../../common/productCard/ProductCard";
-import { products } from "../../../products";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
+import { Box } from "@mui/material";
 import ProductSkeleton from "../../common/ProductSkeleton/ProductSkeleton";
-import Box from "@mui/material/Box";
+import { db } from "../../../firebaseConfig";
+import { getDocs, collection, query, where, addDoc } from "firebase/firestore";
+import { products } from "../../../products";
+import "./ItemListContainer.css";
 
 const ItemListContainer = ({ greeting }) => {
   const { name } = useParams();
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([]); // {id, title ....}
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let arrayFiltrado = products.filter(
-      (elemento) => elemento.category === name
-    );
+    const fetchProducts = async () => {
+      setLoading(true);
+      const coleccionDeProductos = collection(db, "products");
+      let consulta = coleccionDeProductos;
 
-    const getProducts = new Promise((resolve, reject) => {
-      let permiso = true;
-      if (permiso) {
-        resolve(name ? arrayFiltrado : products);
-      } else {
-        reject({ status: 400, message: "algo salió mal" });
+      if (name) {
+        const coleccionFiltrada = query(
+          coleccionDeProductos,
+          where("category", "==", name)
+        );
+        consulta = coleccionFiltrada;
       }
-    });
 
-    getProducts
-      .then((res) => {
-        setItems(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
+      try {
+        const res = await getDocs(consulta);
+        const newArray = res.docs.map((elemento) => {
+          return { id: elemento.id, ...elemento.data() };
+        });
+        setItems(newArray);
+      } catch (error) {
+        console.error("Error fetching products: ", error);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchProducts();
   }, [name]);
+
+  // funcion para actualizar el estado de items con los productos filtrados porque estaban tardando en cargar
+  const OnClickCategoria = (category) => {
+    setLoading(true);
+    setItems([]); // limpio el estado de items
+    const fetchProductosFiltrados = async () => {
+      // funcion asincrona para traer los productos filtrados
+      const coleccionDeProductos = collection(db, "products");
+      const coleccionFiltrada = query(
+        coleccionDeProductos,
+        where("category", "==", category)
+      );
+      try {
+        const res = await getDocs(coleccionFiltrada);
+        const newArray = res.docs.map((elemento) => {
+          return { id: elemento.id, ...elemento.data() };
+        });
+        setItems(newArray);
+      } catch (error) {
+        console.error("Error fetching products: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProductosFiltrados();
+  };
+
+  // funcion para rellenar la db
+  // const rellenar = async () => {
+  //   const productsCollection = collection(db, "products");
+  //   try {
+  //     for (const product of products) {
+  //       await addDoc(productsCollection, product);
+  //     }
+  //     console.log("Productos agregados exitosamente");
+  //   } catch (error) {
+  //     console.error("Error agregando productos: ", error);
+  //   }
+  // };
 
   return (
     <div className="item-list-container">
       <h2>{greeting}</h2>
+
+      {/* <button onClick={rellenar}>Rellenar db</button> */}
+
       <div className="categories">
         <button
           className="btn btn-secondary"
-          onClick={() =>
-            setItems(products.filter((product) => product.category === "vuelo"))
-          }
+          onClick={() => OnClickCategoria("vuelo")}
         >
           Simuladores de Vuelo
         </button>
         <button
           className="btn btn-secondary"
-          onClick={() =>
-            setItems(
-              products.filter((product) => product.category === "carreras")
-            )
-          }
+          onClick={() => OnClickCategoria("carreras")}
         >
           Simuladores de Carreras
         </button>
         <button
           className="btn btn-secondary"
-          onClick={() =>
-            setItems(
-              products.filter((product) => product.category === "espacio")
-            )
-          }
+          onClick={() => OnClickCategoria("espacio")}
         >
           Simuladores de Espacio
         </button>
         <button
           className="btn btn-secondary"
-          onClick={() =>
-            setItems(
-              products.filter((product) => product.category === "shooters")
-            )
-          }
+          onClick={() => OnClickCategoria("shooters")}
         >
           Simuladores de Shooters
         </button>
