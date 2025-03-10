@@ -1,13 +1,13 @@
-import React from 'react';
-import Navbar from './components/layouts/NavBar';
-import Cart from './components/pages/cart/Cart';
-import Checkout from './components/pages/checkout/Checkout';
-import ItemDetail from './components/pages/itemDetail/ItemDetail';
-import ItemListContainer from './components/pages/ItemListContainer/ItemListContainer';
+import React from "react";
+import Navbar from "./components/layouts/NavBar";
+import Cart from "./components/pages/cart/Cart";
+import Checkout from "./components/pages/checkout/Checkout";
+import ItemDetail from "./components/pages/itemDetail/ItemDetail";
+import ItemListContainer from "./components/pages/ItemListContainer/ItemListContainer";
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import CartContextProvider from './context/CartContext';
-import DarkModeContextProvider from './context/DarkModeContext';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import CartContextProvider from "./context/CartContext";
+import DarkModeContextProvider from "./context/DarkModeContext";
 
 function App() {
   return (
@@ -21,6 +21,7 @@ function App() {
           <Route path="/cart" component={Cart} />
           <Route path="/itemDetail/:id" component={ItemDetail} />
           <Route path="/checkout" component={Checkout} />
+
           <Route path="*" component={() => <h2>404 not found</h2>} />
         </Switch>
         {/* </DarkModeContextProvider> */}

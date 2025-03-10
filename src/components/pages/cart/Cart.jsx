@@ -1,6 +1,13 @@
-import { Button, IconButton } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material";
 import { useContext } from "react";
-import { Link } from "react-router-dom"; // Cambiado de "react-router" a "react-router-dom"
+import { Link } from "react-router-dom";
 import { CartContext } from "../../../context/CartContext";
 import Swal from "sweetalert2";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -12,6 +19,7 @@ const Cart = () => {
 
   let total = getTotalAmount();
 
+  // funcion para vaciar el carrito con alerta
   const resetCartWithAlert = () => {
     Swal.fire({
       title: "Seguro quieres vaciar el carrito?",
@@ -42,6 +50,7 @@ const Cart = () => {
     });
   };
 
+  // funcion para eliminar un item del carrito
   const handleRemoveItem = (id) => {
     removeById(id);
     Swal.fire({
@@ -59,26 +68,66 @@ const Cart = () => {
       ) : (
         <div>
           {cart.map((elemento) => (
-            <div key={elemento.id} className="cart-item">
-              <img src={elemento.image} alt={elemento.name} />
-              <div>
-                <h3>{elemento.name}</h3>
-                <p>{elemento.description}</p>
-                <p>${elemento.price}</p>
+            <Card
+              key={elemento.id}
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                marginBottom: 2,
+                maxWidth: 650,
+                margin: "auto",
+                backgroundColor: "#fef5e7",
+                borderRadius: 2,
+                boxShadow: 3,
+              }}
+            >
+              <CardMedia
+                component="img"
+                sx={{ width: 151, height: 200, objectFit: "cover" }}
+                image={elemento.image}
+                alt={elemento.name}
+              />
+              <CardContent sx={{ flex: "1 0 auto", padding: 2 }}>
+                <Typography component="div" variant="h5" noWrap>
+                  {elemento.name}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="text.secondary"
+                  component="div"
+                  noWrap
+                >
+                  {elemento.description}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="text.secondary"
+                  component="div"
+                >
+                  ${elemento.price}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="text.secondary"
+                  component="div"
+                >
+                  Cantidad: {elemento.quantity}
+                </Typography>
                 <IconButton
-                  color="secondary"
+                  color="primary"
                   onClick={() => handleRemoveItem(elemento.id)}
                 >
                   <CancelIcon />
                 </IconButton>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           ))}
           <div className="cart-total">
             <h3>Total: ${total}</h3>
             <Button
-              variant="outlined"
-              color="secondary"
+              variant="contained"
+              color="primary"
               onClick={resetCartWithAlert}
             >
               Vaciar carrito
