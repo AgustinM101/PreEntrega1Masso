@@ -8,4 +8,5 @@ build/
 .cache/
 
 # Variables de entorno
-.env/
+.env/node_modules/
+.cache/
