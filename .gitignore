@@ -1,11 +1,11 @@
 # Node modules
-node_modules
+node_modules/
 
 # Build output
-build
+build/
 
 # Cache
-.cache
+.cache/
 
 # Variables de entorno
-.env
+.env/
