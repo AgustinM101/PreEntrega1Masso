@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { db } from "../../../firebaseConfig";
 import { collection, doc, getDoc } from "firebase/firestore";
+import StyledImage from "../../../animations/StyledImage";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -47,7 +48,11 @@ const ItemDetail = () => {
 
   return (
     <div className="item-detail">
-      <img src={item.image} alt={item.title} className="item-detail-image" />
+      <StyledImage
+        src={item.image}
+        alt={item.title}
+        className="item-detail-image"
+      />
       <div className="item-detail-text">
         <h3>{item.title}</h3>
         <p>{item.description}</p>
