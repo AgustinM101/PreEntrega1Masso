@@ -10,3 +10,4 @@ build/
 # Variables de entorno
 .env
 
+.vercel
