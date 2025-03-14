@@ -2,10 +2,10 @@ import styled, { keyframes } from "styled-components";
 
 const borderAnimation = keyframes`
   0% {
-    border-color:rgb(54, 45, 43); /* Color inicial del borde */
+    border-color:rgb(0, 0, 0); /* Color inicial del borde */
   }
   50% {
-    border-color:rgb(47, 38, 33); /* Color intermedio del borde */
+    border-color:rgb(29, 24, 21); /* Color intermedio del borde */
   }
   100% {
     border-color:rgb(0, 0, 0); /* Color final del borde */
