@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import ProductCard from "../../common/productCard/ProductCard";
 import { useParams } from "react-router";
 import { Box } from "@mui/material";
@@ -7,6 +8,7 @@ import { db } from "../../../firebaseConfig";
 import { getDocs, collection, query, where, addDoc } from "firebase/firestore";
 import { products } from "../../../products";
 import "./ItemListContainer.css";
+import "../../common/gooeyNav/GooeyNav.css";
 
 const ItemListContainer = ({ greeting }) => {
   const { name } = useParams();
@@ -88,31 +90,39 @@ const ItemListContainer = ({ greeting }) => {
 
       {/* <button onClick={rellenar}>Rellenar db</button> */}
 
-      <div className="categories">
-        <button
+      <div className="gooey-nav categories">
+        <motion.button
           className="btn btn-secondary"
+          whileHover={{ scale: 1.1, backgroundColor: "#555" }}
+          whileTap={{ scale: 0.9 }}
           onClick={() => OnClickCategoria("vuelo")}
         >
           Simuladores de Vuelo
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           className="btn btn-secondary"
+          whileHover={{ scale: 1.1, backgroundColor: "#555" }}
+          whileTap={{ scale: 0.9 }}
           onClick={() => OnClickCategoria("carreras")}
         >
           Simuladores de Carreras
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           className="btn btn-secondary"
+          whileHover={{ scale: 1.1, backgroundColor: "#555" }}
+          whileTap={{ scale: 0.9 }}
           onClick={() => OnClickCategoria("espacio")}
         >
           Simuladores de Espacio
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           className="btn btn-secondary"
+          whileHover={{ scale: 1.1, backgroundColor: "#555" }}
+          whileTap={{ scale: 0.9 }}
           onClick={() => OnClickCategoria("shooters")}
         >
           Simuladores de Shooters
-        </button>
+        </motion.button>
       </div>
       {loading ? (
         <Box sx={{ display: "flex", justifyContent: "center", gap: "20px" }}>
