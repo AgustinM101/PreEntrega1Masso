@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { db } from "../../../firebaseConfig";
 import { collection, doc, getDoc } from "firebase/firestore";
-import StyledImage from "../../../animations/StyledImage";
+import StyledImage from "../../../animations/StyledImage"; // Importar el componente de imagen con animaciones
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
